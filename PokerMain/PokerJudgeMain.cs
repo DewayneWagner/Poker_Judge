@@ -1,4 +1,5 @@
-﻿using Poker_Judge.PokerInterface;
+﻿using Poker_Judge.PokerEngine;
+using Poker_Judge.PokerInterface;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -24,7 +25,8 @@ namespace Poker_Judge.PokerMain
         {
             PokerJudge pokerJudge = new PokerJudge();
             string winner = pokerJudge.GetWinner(_fiveCommunityCards, _twoHoleCardsPerPlayer);
-            Console.WriteLine(winner);
+            Console.WriteLine();
+            Console.WriteLine("WINNER IS: " + winner);
         }
 
         private void GetNumberOfPlayers()
@@ -60,7 +62,17 @@ namespace Poker_Judge.PokerMain
         }
         private void GetRandomGeneratedCards()
         {
+            Deck deck = new Deck();
+            _fiveCommunityCards = deck.GetRandomCommunityCards();
 
+            Console.WriteLine("Community Cards: " + _fiveCommunityCards);
+
+            for (int p = 0; p < _numberOfPlayers; p++)
+            {
+                string playerCards = deck.GetPlayerHoleCards();
+                _twoHoleCardsPerPlayer.Add(playerCards);
+                Console.WriteLine("Player" + p.ToString() + ": " + playerCards);
+            }
         }
     }
 }
