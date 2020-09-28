@@ -1,0 +1,66 @@
+﻿using Poker_Judge.PokerInterface;
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace Poker_Judge.PokerMain
+{
+    class PokerJudgeMain
+    {
+        private bool _manuallyEnteredVsRandomGenerated;
+        private int _numberOfPlayers;
+        private string _fiveCommunityCards;
+        private List<string> _twoHoleCardsPerPlayer = new List<string>();
+
+        public PokerJudgeMain()
+        {
+            GetNumberOfPlayers();
+            GetManualEntryVSRandomlyGeneratedHands();
+            if(_manuallyEnteredVsRandomGenerated) { GetManuallyEnteredCards(); }
+            else { GetRandomGeneratedCards(); }
+            DisplayWinner();
+        }
+        public void DisplayWinner()
+        {
+            PokerJudge pokerJudge = new PokerJudge();
+            string winner = pokerJudge.GetWinner(_fiveCommunityCards, _twoHoleCardsPerPlayer);
+            Console.WriteLine(winner);
+        }
+
+        private void GetNumberOfPlayers()
+        {
+            Console.WriteLine("Enter Number of Players (Max 6):");
+            string response = Console.ReadLine();
+            _numberOfPlayers = Convert.ToInt32(response);
+
+        }
+        private void GetManualEntryVSRandomlyGeneratedHands()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine("Enter scenario type: ");
+            sb.AppendLine("1. Manually Enter Hands");
+            sb.AppendLine("2. Randomly Generate Hands");
+
+            Console.WriteLine(sb.ToString());
+            string response = Console.ReadLine();
+            if(response == "1") { _manuallyEnteredVsRandomGenerated = true; }
+            else { _manuallyEnteredVsRandomGenerated = false; }
+        }
+        private void GetManuallyEnteredCards()
+        {
+            Console.WriteLine("Enter 5 Community Cards (format:  AC 8D 5H QS JD):");
+            _fiveCommunityCards = Console.ReadLine();
+
+            for (int i = 1; i <= _numberOfPlayers; i++)
+            {
+                Console.WriteLine("Enter 2 cards for Player" + i.ToString() + ":");
+                string response = Console.ReadLine();
+                _twoHoleCardsPerPlayer.Add(response);
+            }
+        }
+        private void GetRandomGeneratedCards()
+        {
+
+        }
+    }
+}
