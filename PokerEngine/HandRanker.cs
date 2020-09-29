@@ -20,6 +20,7 @@ namespace Poker_Judge.PokerEngine
         {
             _hand = hand;
         }
+        public int PlayerNumber => _hand.PlayerNumber;
         public bool ContainsFlush
         {
             get

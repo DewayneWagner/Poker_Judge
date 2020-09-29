@@ -6,11 +6,15 @@ namespace Poker_Judge.PokerEngine
 {
     public class Hand : List<Card>
     {
-        public Hand(string communityCards, string holeCards)
+        public Hand(string communityCards, string holeCards, int playerNumber = -1)
         {
+            PlayerNumber = playerNumber;
             AddCommunityCards(communityCards);
             AddHoleCards(holeCards);
         }
+
+        public int PlayerNumber { get; set; }
+
         private void AddCommunityCards(string communityCards)
         {
             string[] cards = communityCards.Split(" ");
