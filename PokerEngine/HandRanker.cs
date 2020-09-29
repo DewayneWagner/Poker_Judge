@@ -39,10 +39,55 @@ namespace Poker_Judge.PokerEngine
                 return false;
             }
         }
-        public bool ContainsStraight { get; set; }
+        public bool ContainsStraight
+        {
+            get
+            {
+                List<int> orderedValues = _hand.OrderByDescending(c => c.Value)
+                                                .Select(c => c.Value)
+                                                .ToList();
+
+                List<int> differentialList = getDifferentialList();
+
+                int counter = 0;
+                bool isPossibleStraight = false;
+
+                foreach (int diff in differentialList)
+                {
+                    if(diff == 1 && isPossibleStraight) { counter++; }
+                    else if(diff == 1 && !isPossibleStraight)
+                    {
+                        counter++;
+                        isPossibleStraight = true;
+                    }
+                    else
+                    {
+                        counter = 0;
+                        isPossibleStraight = false;
+                    }
+                    if(counter == 4) { return true; }
+                }
+                return false;
+
+                List<int> getDifferentialList()
+                {
+                    List<int> diffList = new List<int>();
+                    for (int i = 0; i < orderedValues.Count - 1; i++)
+                    {
+                        int diff = orderedValues[i] - orderedValues[i + 1];
+                        if (diff != 0) { diffList.Add(diff); }
+                    }
+                    return diffList;
+                }
+                
+            }
+        }
         public bool ContainsThreeOfAKind { get; set; }
 
-        public int HighCard { get; set; }
+        public int HighCard => _hand.OrderByDescending(c => c.Value)
+                                    .Select(c => c.Value)
+                                    .First();
+
         public int Ranking { get; set; }
     }
 }
