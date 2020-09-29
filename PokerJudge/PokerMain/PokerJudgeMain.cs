@@ -2,25 +2,46 @@
 using Poker_Judge.PokerInterface;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace Poker_Judge.PokerMain
 {
-    class PokerJudgeMain
+    public class PokerJudgeMain
     {
         private bool _manuallyEnteredVsRandomGenerated;
         private int _numberOfPlayers;
         private string _fiveCommunityCards;
         private List<string> _twoHoleCardsPerPlayer = new List<string>();
-
-        public PokerJudgeMain()
+                
+        public void Run()
         {
-            GetNumberOfPlayers();
+                        GetNumberOfPlayers();
             GetManualEntryVSRandomlyGeneratedHands();
-            if(_manuallyEnteredVsRandomGenerated) { GetManuallyEnteredCards(); }
+            if (_manuallyEnteredVsRandomGenerated) { GetManuallyEnteredCards(); }
             else { GetRandomGeneratedCards(); }
             DisplayWinner();
         }
+
+        public void Run(string input, TextWriter output)
+        {
+            StringReader reader = new StringReader(input);
+
+            string communityCards = reader.ReadLine();
+
+            string line = reader.ReadLine();
+            while(line != null)
+            {
+                if (line == string.Empty)
+                {
+                    // run game, we probably have a new game to play after
+                }
+                // add player
+            }
+
+        }
+
         public void DisplayWinner()
         {
             PokerJudge pokerJudge = new PokerJudge();

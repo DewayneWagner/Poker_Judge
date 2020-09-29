@@ -8,9 +8,18 @@ namespace Poker_Judge
     {
         static void Main(string[] args)
         {
+            PokerJudgeMain pokerJudgeMain = new PokerJudgeMain();
+
+            if (Console.IsInputRedirected)
+            {
+                var input = Console.In.ReadToEnd();
+                pokerJudgeMain.Run(input, Console.Out);
+                return;
+            }
+
             do
             {
-                PokerJudgeMain pokerJudgeMain = new PokerJudgeMain();
+                pokerJudgeMain.Run();
             } while (CheckIfRunAgain());
             
         }

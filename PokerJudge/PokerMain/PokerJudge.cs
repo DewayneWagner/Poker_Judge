@@ -4,14 +4,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using static Poker_Judge.PokerEngine.HandRanker;
+using static Poker_Judge.PokerEngine.HandRank;
 
 namespace Poker_Judge.PokerMain
 {
     public class PokerJudge : IPokerJudge
     {
         List<Hand> _hands = new List<Hand>();
-        List<HandRanker> _rankings = new List<HandRanker>();
+        List<HandRank> _rankings = new List<HandRank>();
         public string GetWinner(string fiveCommunityCards, List<string> twoHoleCardsPerPlayer)
         {
             SetHands(fiveCommunityCards, twoHoleCardsPerPlayer);
@@ -29,10 +29,10 @@ namespace Poker_Judge.PokerMain
         }
         private void SetRankings()
         {
-            List<HandRanker> rankings = new List<HandRanker>();
+            List<HandRank> rankings = new List<HandRank>();
             foreach (Hand hand in _hands)
             {
-                rankings.Add(new HandRanker(hand));
+                rankings.Add(new HandRank(hand));
             }
             _rankings = rankings.OrderByDescending(r => r.Ranking)
                            .ThenByDescending(r => r.HighCard)

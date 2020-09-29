@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using static Poker_Judge.PokerEngine.Deck;
-using HT = Poker_Judge.PokerEngine.HandRanker.HandTypes;
+using HT = Poker_Judge.PokerEngine.HandRank.HandTypes;
 
 namespace UnitTests
 {

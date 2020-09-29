@@ -7,7 +7,7 @@ using static Poker_Judge.PokerEngine.Deck;
 
 namespace Poker_Judge.PokerEngine
 {
-    public class HandRanker
+    public class HandRank
     {        
         public enum HandTypes
         {
@@ -16,30 +16,29 @@ namespace Poker_Judge.PokerEngine
         }
 
         private Hand _hand;
-        public HandRanker(Hand hand)
+        public HandRank(Hand hand)
         {
             _hand = hand;
         }
         public int PlayerNumber => _hand.PlayerNumber;
-        public bool ContainsFlush
-        {
-            get
-            {
-                List<int> suitCount = new List<int>() { 0, 0, 0, 0 };
-                
-                for (int card = 0; card < _hand.Count; card++)
-                {
-                    int suit = (int)_hand[card].Suit;
-                    suitCount[suit]++;
-                }
 
-                for (int i = 0; i < suitCount.Count; i++)
-                {
-                    if(suitCount[i] >= 5) { return true; }
-                }
-                return false;
+        private bool CheckIfContainsFlush(Hand hand)
+        {
+            List<int> suitCount = new List<int>() { 0, 0, 0, 0 };
+
+            for (int card = 0; card < hand.Count; card++)
+            {
+                int suit = (int)hand[card].Suit;
+                suitCount[suit]++;
             }
+
+            for (int i = 0; i < suitCount.Count; i++)
+            {
+                if (suitCount[i] >= 5) { return true; }
+            }
+            return false;
         }
+
         public bool ContainsStraight
         {
             get
@@ -159,11 +158,11 @@ namespace Poker_Judge.PokerEngine
         {
             get
             {
-                if(ContainsStraight && ContainsFlush && HighCard == 12) { return (int)HandTypes.RoyalFlush; }
-                if(ContainsStraight && ContainsFlush) { return (int)HandTypes.StraightFlush; }
+                if(ContainsStraight && CheckIfContainsFlush(_hand) && HighCard == 12) { return (int)HandTypes.RoyalFlush; }
+                if(ContainsStraight && CheckIfContainsFlush(_hand)) { return (int)HandTypes.StraightFlush; }
                 if(ContainsFourOfAKind) { return (int)HandTypes.FourOfAKind; }
                 if(ContainsFullHouse) { return (int)HandTypes.FullHouse; }
-                if(ContainsFlush) { return (int)HandTypes.Flush; }
+                if(CheckIfContainsFlush(_hand)) { return (int)HandTypes.Flush; }
                 if(ContainsStraight) { return (int)HandTypes.Straight; }
                 if(ContainsThreeOfAKind) { return (int)HandTypes.ThreeOfAKind; }
                 if(ContainsTwoPair) { return (int)HandTypes.TwoPair; }
