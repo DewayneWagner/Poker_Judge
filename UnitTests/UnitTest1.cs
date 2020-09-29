@@ -76,7 +76,7 @@ namespace UnitTests
                 Assert.That(hand[c].FaceValue, Is.EqualTo(faceValues[c]));
             }
         }
-        [Test]
+        [TestCase()]
         public void create_sevenfacevalues_hand2()
         {
             List<string> faceValues = new List<string>() { "3S", "4C", "5D", "KD", "QS", "6D", "7D" };
@@ -95,121 +95,94 @@ namespace UnitTests
             }
         }
         [Test]
-        public void handranker_testhands_isflush()
+        [TestCase("10S 8S 7D KH 2S", "3S 5S", HandTypes.Flush)]
+        public void handranker_testhands_isflush(string communityCards, string playerCards, HandTypes ranking)
         {
-            HandIdentifierTests hit = new HandIdentifierTests();
+            Hand hand = new Hand(communityCards, playerCards);
+            HandRank handRanker = new HandRank();
+            handRanker.Run(hand);
 
-            for (int i = 0; i < hit.NumberOfTestHands; i++)
-            {
-                Hand hand = hit.TestHands[i];
-                HandRank hr = new HandRank(hand);
-                Assert.That(hr.GetContainsFlush(hand), Is.EqualTo(hit.ContainsFlushKey[i]));
-            }
+            Assert.That(handRanker.Ranking, Is.EqualTo(ranking));
         }
         [Test]
-        public void handranker_testhands_isstraight()
+        [TestCase("3S 4C 5D KD QS", "6D 7D", HandTypes.Straight)]
+        public void handranker_testhands_isstraight(string communityCards, string playerCards, HandTypes ranking)
         {
-            HandIdentifierTests hit = new HandIdentifierTests();
+            Hand hand = new Hand(communityCards, playerCards);
+            HandRank handRanker = new HandRank();
+            handRanker.Run(hand);
 
-            for (int i = 0; i < hit.NumberOfTestHands; i++)
-            {
-                Hand hand = hit.TestHands[i];
-                HandRank hr = new HandRank(hand);
-                Assert.That(hr.ContainsStraight, Is.EqualTo(hit.ContainsStraightKey[i]));
-            }
+            Assert.That(handRanker.Ranking, Is.EqualTo(ranking));
         }
         [Test]
-        public void handranker_testhands_highcard()
+        [TestCase("2H 5D 9C KD 10S", "8S 3D", HandTypes.HighCard)]
+        public void handranker_testhands_highcard(string communityCards, string playerCards, HandTypes ranking)
         {
-            HandIdentifierTests hit = new HandIdentifierTests();
+            Hand hand = new Hand(communityCards, playerCards);
+            HandRank handRanker = new HandRank();
+            handRanker.Run(hand);
 
-            for (int i = 0; i < hit.NumberOfTestHands; i++)
-            {
-                Hand hand = hit.TestHands[i];
-                HandRank hr = new HandRank(hand);
-                Assert.That(hr.HighCard, Is.EqualTo(hit.HightCardKey[i]));
-            }
+            Assert.That(handRanker.Ranking, Is.EqualTo(ranking));
         }
         [Test]
-        public void handranker_testhands_threeofakind()
+        [TestCase("5S 5D 5H 8C QD", "2C AH", HandTypes.ThreeOfAKind)]
+        public void handranker_testhands_threeofakind(string communityCards, string playerCards, HandTypes ranking)
         {
-            HandIdentifierTests hit = new HandIdentifierTests();
+            Hand hand = new Hand(communityCards, playerCards);
+            HandRank handRanker = new HandRank();
+            handRanker.Run(hand);
 
-            for (int h = 0; h < hit.NumberOfTestHands; h++)
-            {
-                Hand hand = hit.TestHands[h];
-                HandRank hr = new HandRank(hand);
-                Assert.That(hr.ContainsThreeOfAKind, Is.EqualTo(hit.ContainsThreeOfAKindKey[h]));
-            }
+            Assert.That(handRanker.Ranking, Is.EqualTo(ranking));
         }
         [Test]
-        public void handranker_testhands_fourofakind()
+        [TestCase("JH JC JS 9D 2S", "JD 4H", HandTypes.FourOfAKind)]
+        public void handranker_testhands_fourofakind(string communityCards, string playerCards, HandTypes ranking)
         {
-            HandIdentifierTests hit = new HandIdentifierTests();
+            Hand hand = new Hand(communityCards, playerCards);
+            HandRank handRanker = new HandRank();
+            handRanker.Run(hand);
 
-            for (int h = 0; h < hit.NumberOfTestHands; h++)
-            {
-                Hand hand = hit.TestHands[h];
-                HandRank hr = new HandRank(hand);
-                Assert.That(hr.ContainsFourOfAKind, Is.EqualTo(hit.ContainsFourOfAKindKey[h]));
-            }
+            Assert.That(handRanker.Ranking, Is.EqualTo(ranking));
         }
         [Test]
-        public void handranker_testhands_fullhouse()
+        [TestCase("5S 5H 5D 2C QD", "JD JC", HandTypes.FullHouse)]
+        public void handranker_testhands_fullhouse(string communityCards, string playerCards, HandTypes ranking)
         {
-            HandIdentifierTests hit = new HandIdentifierTests();
+            Hand hand = new Hand(communityCards, playerCards);
+            HandRank handRanker = new HandRank();
+            handRanker.Run(hand);
 
-            for (int h = 0; h < hit.NumberOfTestHands; h++)
-            {
-                Hand hand = hit.TestHands[h];
-                HandRank hr = new HandRank(hand);
-                Assert.That(hr.ContainsFullHouse, Is.EqualTo(hit.ContainsFullHouseKey[h]));
-            }
+            Assert.That(handRanker.Ranking, Is.EqualTo(ranking));
         }
         [Test]
-        public void handranker_testhands_pair()
+        [TestCase("8D 9C QH 2S 5D", "8H 10D", HandTypes.Pair)]
+        public void handranker_testhands_pair(string communityCards, string playerCards, HandTypes ranking)
         {
-            HandIdentifierTests hit = new HandIdentifierTests();
+            Hand hand = new Hand(communityCards, playerCards);
+            HandRank handRanker = new HandRank();
+            handRanker.Run(hand);
 
-            for (int h = 0; h < hit.NumberOfTestHands; h++)
-            {
-                Hand hand = hit.TestHands[h];
-                HandRank hr = new HandRank(hand);
-                Assert.That(hr.ContainsPair, Is.EqualTo(hit.ContainsPairKey[h]));
-            }
+            Assert.That(handRanker.Ranking, Is.EqualTo(ranking));
         }
         [Test]
-        public void handranker_testhands_twopair()
+        [TestCase("8D 9C 9H 2S 5D", "8H 10D", HandTypes.TwoPair)]
+        public void handranker_testhands_twopair(string communityCards, string playerCards, HandTypes ranking)
         {
-            HandIdentifierTests hit = new HandIdentifierTests();
+            Hand hand = new Hand(communityCards, playerCards);
+            HandRank handRanker = new HandRank();
+            handRanker.Run(hand);
 
-            for (int h = 0; h < hit.NumberOfTestHands; h++)
-            {
-                Hand hand = hit.TestHands[h];
-                HandRank hr = new HandRank(hand);
-                Assert.That(hr.ContainsTwoPair, Is.EqualTo(hit.ContainsTwoPairKey[h]));
-            }
+            Assert.That(handRanker.Ranking, Is.EqualTo(HandTypes.TwoPair));
         }
         [Test]
         [TestCase("AH KH QH JH 8S", "10H 7D", HandTypes.RoyalFlush)]
         public void handranker_testhands_ranking(string communityCards, string playerCards, HandTypes ranking)
         {
             Hand hand = new Hand(communityCards, playerCards);
-            HandRank handRanker = new HandRank(hand);
+            HandRank handRanker = new HandRank();
+            handRanker.Run(hand);
 
-            Assert.That(handRanker.Ranking, Is.EqualTo((int)ranking));
-            Assert.That(handRanker.GetContainsFlush(hand), Is.EqualTo(true));
-            Assert.That(handRanker.ContainsStraight, Is.EqualTo(true));
-
-
-            //HandIdentifierTests hit = new HandIdentifierTests();
-
-            //for (int h = 0; h < hit.NumberOfTestHands; h++)
-            //{
-            //    Hand hand = hit.TestHands[h];
-            //    HandRanker hr = new HandRanker(hand);
-            //    Assert.That(hr.Ranking, Is.EqualTo(hit.RankingKey[h]));
-            //}
+            Assert.That(handRanker.Ranking, Is.EqualTo(ranking));
         }
         [Test]
         public void pokerjudge_choosewinner_player1()
@@ -268,11 +241,12 @@ namespace UnitTests
         {
             StringWriter output = new StringWriter();
             StringBuilder sb = new StringBuilder();
-            sb.AppendLine("community cards");
-            sb.AppendLine("player1 1 2");
-            sb.AppendLine("player1 1 2");
-            sb.AppendLine("player1 1 2");
-            sb.AppendLine("player1 1 2");
+            sb.AppendLine("5H 6H 9H 2D QC");
+            sb.AppendLine("player1 10H KH");
+            sb.AppendLine("player2 4C JS");
+            sb.AppendLine("player3 4D 8D");
+            sb.AppendLine("player4 10D 8C");
+
             StringBuilder expectedOutput = new StringBuilder();
             expectedOutput.AppendLine("Player1");
 
@@ -281,7 +255,7 @@ namespace UnitTests
             Assert.That(output.ToString(), Is.EqualTo(expectedOutput.ToString()));
         }
 
-        [Test]
+        //[Test]
         public void run_withMultiGameInput_returnsExpectedOutput()
         {
             StringWriter output = new StringWriter();
@@ -298,6 +272,7 @@ namespace UnitTests
             sb.AppendLine("player1 1 2");
             sb.AppendLine("player1 1 2");
             StringBuilder expectedOutput = new StringBuilder();
+
             expectedOutput.AppendLine("Player1");
             expectedOutput.AppendLine("Player2");
 

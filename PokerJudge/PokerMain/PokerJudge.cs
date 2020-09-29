@@ -12,9 +12,9 @@ namespace Poker_Judge.PokerMain
     {
         List<Hand> _hands = new List<Hand>();
         List<HandRank> _rankings = new List<HandRank>();
-        public string GetWinner(string fiveCommunityCards, List<string> twoHoleCardsPerPlayer)
+        public string GetWinner(string fiveCommunityCards, List<string> twoPlayerCards)
         {
-            SetHands(fiveCommunityCards, twoHoleCardsPerPlayer);
+            SetHands(fiveCommunityCards, twoPlayerCards);
             SetRankings();
 
             string winner = IsTie ? "Tie!" : "Player" + (_rankings[0].PlayerNumber + 1).ToString();
@@ -32,7 +32,9 @@ namespace Poker_Judge.PokerMain
             List<HandRank> rankings = new List<HandRank>();
             foreach (Hand hand in _hands)
             {
-                rankings.Add(new HandRank(hand));
+                HandRank handRank = new HandRank();
+                handRank.Run(hand);
+                rankings.Add(handRank);
             }
             _rankings = rankings.OrderByDescending(r => r.Ranking)
                            .ThenByDescending(r => r.HighCard)

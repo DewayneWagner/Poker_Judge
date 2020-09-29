@@ -17,7 +17,7 @@ namespace Poker_Judge.PokerMain
                 
         public void Run()
         {
-                        GetNumberOfPlayers();
+            GetNumberOfPlayers();
             GetManualEntryVSRandomlyGeneratedHands();
             if (_manuallyEnteredVsRandomGenerated) { GetManuallyEnteredCards(); }
             else { GetRandomGeneratedCards(); }
@@ -29,17 +29,22 @@ namespace Poker_Judge.PokerMain
             StringReader reader = new StringReader(input);
 
             string communityCards = reader.ReadLine();
+            List<string> playerCards = new List<string>();
 
             string line = reader.ReadLine();
+
             while(line != null)
             {
                 if (line == string.Empty)
                 {
-                    // run game, we probably have a new game to play after
+                    PokerJudge pokerJudge = new PokerJudge();                    
+                    string winner = pokerJudge.GetWinner(communityCards, playerCards);
+                    output.Write(winner);
+                    return;
                 }
-                // add player
+                playerCards.Add(line);
+                line = reader.ReadLine();
             }
-
         }
 
         public void DisplayWinner()
