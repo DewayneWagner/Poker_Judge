@@ -9,7 +9,7 @@ namespace Poker_Judge.PokerEngine
 {
     public class HandRanker
     {        
-        private enum HandTypes
+        public enum HandTypes
         {
             HighCard, Pair, TwoPair, ThreeOfAKind, Straight, Flush, FullHouse,
             FourOfAKind, StraightFlush, RoyalFlush, 
@@ -154,10 +154,26 @@ namespace Poker_Judge.PokerEngine
             }
         }
 
+        public int Ranking
+        {
+            get
+            {
+                if(ContainsStraight && ContainsFlush && HighCard == 12) { return (int)HandTypes.RoyalFlush; }
+                if(ContainsStraight && ContainsFlush) { return (int)HandTypes.StraightFlush; }
+                if(ContainsFourOfAKind) { return (int)HandTypes.FourOfAKind; }
+                if(ContainsFullHouse) { return (int)HandTypes.FullHouse; }
+                if(ContainsFlush) { return (int)HandTypes.Flush; }
+                if(ContainsStraight) { return (int)HandTypes.Straight; }
+                if(ContainsThreeOfAKind) { return (int)HandTypes.ThreeOfAKind; }
+                if(ContainsTwoPair) { return (int)HandTypes.TwoPair; }
+                if(ContainsPair) { return (int)HandTypes.Pair; }
+
+                return (int)HandTypes.HighCard;
+            }
+        }
+
         public int HighCard => _hand.OrderByDescending(c => c.Value)
                                     .Select(c => c.Value)
                                     .First();
-
-        public int Ranking { get; set; }
     }
 }
