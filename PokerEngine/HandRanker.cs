@@ -79,10 +79,25 @@ namespace Poker_Judge.PokerEngine
                     }
                     return diffList;
                 }
-                
             }
         }
-        public bool ContainsThreeOfAKind { get; set; }
+        
+        public bool ContainsThreeOfAKind
+        {
+            get
+            {
+                List<int> distinctValues = _hand.Select(v => v.Value)
+                                            .Distinct()
+                                            .ToList();
+
+                foreach (int v in distinctValues)
+                {
+                    if (_hand.Where(c => c.Value == v).Count() == 3) { return true; }
+                }
+
+                return false;
+            }
+        }
 
         public int HighCard => _hand.OrderByDescending(c => c.Value)
                                     .Select(c => c.Value)
