@@ -18,7 +18,6 @@ namespace Poker_Judge.PokerMain
             SetRankings();
 
             string winner = IsTie ? "Tie!" : "Player" + (_rankings[0].PlayerNumber + 1).ToString();
-            winner += " with " + WinningHandDisplayString;
             return winner;
         }
         private void SetHands(string fiveCommunityCards, List<string> twoHoleCardsPerPlayer)
@@ -47,7 +46,7 @@ namespace Poker_Judge.PokerMain
                 else { return false; }
             }
         }
-        private string WinningHandDisplayString
+        public string WinningHandDisplayString
         {
             get
             {

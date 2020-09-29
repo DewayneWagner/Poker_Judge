@@ -26,7 +26,7 @@ namespace Poker_Judge.PokerMain
             PokerJudge pokerJudge = new PokerJudge();
             string winner = pokerJudge.GetWinner(_fiveCommunityCards, _twoHoleCardsPerPlayer);
             Console.WriteLine();
-            Console.WriteLine("WINNER IS: " + winner);
+            Console.WriteLine("WINNER IS: " + winner + "with " + pokerJudge.WinningHandDisplayString);
         }
 
         private void GetNumberOfPlayers()
