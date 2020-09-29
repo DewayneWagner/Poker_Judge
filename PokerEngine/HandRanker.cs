@@ -124,6 +124,18 @@ namespace Poker_Judge.PokerEngine
             }
         }
 
+        public bool ContainsPair
+        {
+            get
+            {
+                foreach (int value in _distinctValues)
+                {
+                    if (_hand.Where(v => v.Value == value).Count() == 2) { return true; }
+                }
+                return false;
+            }
+        }
+
         public int HighCard => _hand.OrderByDescending(c => c.Value)
                                     .Select(c => c.Value)
                                     .First();
