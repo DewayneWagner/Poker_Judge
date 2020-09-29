@@ -81,20 +81,30 @@ namespace Poker_Judge.PokerEngine
                 }
             }
         }
-        
+        private List<int> _distinctValues => _hand.Select(v => v.Value)
+                                            .Distinct()
+                                            .ToList();
+
         public bool ContainsThreeOfAKind
         {
             get
             {
-                List<int> distinctValues = _hand.Select(v => v.Value)
-                                            .Distinct()
-                                            .ToList();
-
-                foreach (int v in distinctValues)
+                foreach (int v in _distinctValues)
                 {
                     if (_hand.Where(c => c.Value == v).Count() == 3) { return true; }
                 }
+                return false;
+            }
+        }
 
+        public bool ContainsFourOfAKind
+        {
+            get
+            {
+                foreach (int v in _distinctValues)
+                {
+                    if (_hand.Where(c => c.Value == v).Count() == 4) { return true; }
+                }
                 return false;
             }
         }
