@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using static Poker_Judge.PokerEngine.HandRanker;
 
 namespace Poker_Judge.PokerMain
 {
@@ -17,6 +18,7 @@ namespace Poker_Judge.PokerMain
             SetRankings();
 
             string winner = IsTie ? "Tie!" : "Player" + (_rankings[0].PlayerNumber + 1).ToString();
+            winner += " with " + WinningHandDisplayString;
             return winner;
         }
         private void SetHands(string fiveCommunityCards, List<string> twoHoleCardsPerPlayer)
@@ -45,6 +47,38 @@ namespace Poker_Judge.PokerMain
                 else { return false; }
             }
         }
+        private string WinningHandDisplayString
+        {
+            get
+            {
+                HandTypes winningHand = (HandTypes)_rankings[0].Ranking;
+                switch (winningHand)
+                {
+                    case HandTypes.HighCard:
+                        return "High Card";
+                    case HandTypes.Pair:
+                        return "a Pair";
+                    case HandTypes.TwoPair:
+                        return "Two Pair";
+                    case HandTypes.ThreeOfAKind:
+                        return "Three of a kind";
+                    case HandTypes.Straight:
+                        return "a Straight";
+                    case HandTypes.Flush:
+                        return "a Flush";
+                    case HandTypes.FullHouse:
+                        return "a Full House";
+                    case HandTypes.FourOfAKind:
+                        return "Four of a kind";
+                    case HandTypes.StraightFlush:
+                        return "a Straight Flush";
+                    case HandTypes.RoyalFlush:
+                        return "a Royal Flush";
+                    default:
+                        return null;
+                }
 
+            }
+        }
     }
 }

@@ -71,7 +71,7 @@ namespace Poker_Judge.PokerMain
             {
                 string playerCards = deck.GetPlayerHoleCards();
                 _twoHoleCardsPerPlayer.Add(playerCards);
-                Console.WriteLine("Player" + p.ToString() + ": " + playerCards);
+                Console.WriteLine("Player" + (p + 1).ToString() + ": " + playerCards);
             }
         }
     }

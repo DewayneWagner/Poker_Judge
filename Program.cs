@@ -1,5 +1,6 @@
 ﻿using Poker_Judge.PokerMain;
 using System;
+using System.Runtime.CompilerServices;
 
 namespace Poker_Judge
 {
@@ -7,7 +8,19 @@ namespace Poker_Judge
     {
         static void Main(string[] args)
         {
-            PokerJudgeMain pokerJudgeMain = new PokerJudgeMain();
+            do
+            {
+                PokerJudgeMain pokerJudgeMain = new PokerJudgeMain();
+            } while (CheckIfRunAgain());
+            
+        }
+        private static bool CheckIfRunAgain()
+        {
+            Console.WriteLine("Would you like to run again (Y/N)?");
+            string response = Console.ReadLine();
+
+            if(response == "Y" || response == "y") { return true; }
+            else { return false; }
         }
     }
 }
