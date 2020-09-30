@@ -22,9 +22,38 @@ namespace Poker_Judge.PokerMain
         }
         private void SetHands(string fiveCommunityCards, List<string> twoHoleCardsPerPlayer)
         {
-            for (int h = 0; h < twoHoleCardsPerPlayer.Count; h++)
+            if (textIncludePlayerNumber())
             {
-                _hands.Add(new Hand(fiveCommunityCards, twoHoleCardsPerPlayer[h], h));
+                List<string> playerCards = getCardsWithoutPlayerText();
+
+                for (int h = 0; h < playerCards.Count; h++)
+                {
+                    _hands.Add(new Hand(fiveCommunityCards, playerCards[h]));
+                }
+
+                List<string> getCardsWithoutPlayerText()
+                {
+                    List<string> cardsWithoutPlayerText = new List<string>();
+                    foreach (string cards in twoHoleCardsPerPlayer)
+                    {
+                        string[] dataSplit = cards.Split(" ");
+                        cardsWithoutPlayerText.Add(dataSplit[1] + " " + dataSplit[2]);
+                    }
+                    return cardsWithoutPlayerText;
+                }
+            }
+            else
+            {
+                for (int h = 0; h < twoHoleCardsPerPlayer.Count; h++)
+                {
+                    _hands.Add(new Hand(fiveCommunityCards, twoHoleCardsPerPlayer[h], h));
+                }
+            }
+                      
+            bool textIncludePlayerNumber()
+            {
+                if(twoHoleCardsPerPlayer[0].Length > 6) { return true; }
+                else { return false; }
             }
         }
         private void SetRankings()

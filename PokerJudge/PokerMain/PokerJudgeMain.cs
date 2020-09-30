@@ -22,27 +22,27 @@ namespace Poker_Judge.PokerMain
             if (_manuallyEnteredVsRandomGenerated) { GetManuallyEnteredCards(); }
             else { GetRandomGeneratedCards(); }
             DisplayWinner();
-        }
+        }       
 
         public void Run(string input, TextWriter output)
         {
             StringReader reader = new StringReader(input);
 
-            string communityCards = reader.ReadLine();
-            List<string> playerCards = new List<string>();
-
+            string appendedInput = null;
             string line = reader.ReadLine();
 
-            while(line != null)
+            while (line != null)
             {
-                if (line == string.Empty)
+                appendedInput += line;
+
+                if(line == string.Empty)
                 {
-                    PokerJudge pokerJudge = new PokerJudge();                    
-                    string winner = pokerJudge.GetWinner(communityCards, playerCards);
+                    InputParser inputParser = new InputParser(appendedInput);
+                    PokerJudge pokerJudge = new PokerJudge();
+                    string winner = pokerJudge.GetWinner(inputParser.CommunityCards, inputParser.PlayerCards);
                     output.Write(winner);
                     return;
                 }
-                playerCards.Add(line);
                 line = reader.ReadLine();
             }
         }

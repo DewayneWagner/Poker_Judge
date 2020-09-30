@@ -242,44 +242,106 @@ namespace UnitTests
             StringWriter output = new StringWriter();
             StringBuilder sb = new StringBuilder();
             sb.AppendLine("5H 6H 9H 2D QC");
-            sb.AppendLine("player1 10H KH");
-            sb.AppendLine("player2 4C JS");
-            sb.AppendLine("player3 4D 8D");
-            sb.AppendLine("player4 10D 8C");
+            sb.AppendLine("Player1 10H KH");
+            sb.AppendLine("Player2 4C JS");
+            sb.AppendLine("Player3 4D 8D");
+            sb.AppendLine("Player4 10D 8C");
 
-            StringBuilder expectedOutput = new StringBuilder();
-            expectedOutput.AppendLine("Player1");
+            InputParser inputParser = new InputParser(sb.ToString());
+            string communityCardsExpectedResult = "5H 6H 9H 2D QC";
+            string result = inputParser.GetTestString();
+            Assert.That(inputParser.CommunityCards, Is.EqualTo(communityCardsExpectedResult));
 
-            new PokerJudgeMain().Run(sb.ToString(), output);
+            List<string> expectedPlayerHands = new List<string>() { "10H KH", "4C JS", "4D 8D", "10D 8C" };
 
-            Assert.That(output.ToString(), Is.EqualTo(expectedOutput.ToString()));
+            for (int p = 0; p < inputParser.PlayerCards.Count; p++)
+            {
+                string playerResult = inputParser.PlayerCards[p];
+                Assert.That(playerResult, Is.EqualTo(expectedPlayerHands[p]));
+            }
+
+            PokerJudge pokerJudge = new PokerJudge();
+            string winner = pokerJudge.GetWinner(inputParser.CommunityCards, inputParser.PlayerCards);
+            string expectedWinner = "Player1";
+            Assert.That(winner, Is.EqualTo(expectedWinner));
         }
 
-        //[Test]
+        [Test]
         public void run_withMultiGameInput_returnsExpectedOutput()
         {
             StringWriter output = new StringWriter();
             StringBuilder sb = new StringBuilder();
-            sb.AppendLine("community cards");
-            sb.AppendLine("player1 1 2");
-            sb.AppendLine("player1 1 2");
-            sb.AppendLine("player1 1 2");
-            sb.AppendLine("player1 1 2");
-            sb.AppendLine();
-            sb.AppendLine("community cards");
-            sb.AppendLine("player1 1 2");
-            sb.AppendLine("player1 1 2");
-            sb.AppendLine("player1 1 2");
-            sb.AppendLine("player1 1 2");
-            StringBuilder expectedOutput = new StringBuilder();
 
-            expectedOutput.AppendLine("Player1");
-            expectedOutput.AppendLine("Player2");
+            // tested this and it worked
+            //sb.AppendLine("3C 4C 5C JH KH");
+            //sb.AppendLine("Player1 6C 7C");
+            //sb.AppendLine("Player2 2H 9H");
+            //sb.AppendLine("Player3 2S 9D");
+            //sb.AppendLine("Player4 AD 8S");
+            //sb.AppendLine();
 
-            new PokerJudgeMain().Run(sb.ToString(), output);
+            sb.AppendLine("7H 7D 7C 9S QS");
+            sb.AppendLine("Player1 JD JH");
+            sb.AppendLine("Player2 QD QH");
+            sb.AppendLine("Player3 8S 2H");
+            sb.AppendLine("Player4 2S JC");
 
-            Assert.That(output.ToString(), Is.EqualTo(expectedOutput.ToString()));
+            InputParser inputParser = new InputParser(sb.ToString());
+            string communityCardsExpectedResult = "7H 7D 7C 9S QS";
+            string result = inputParser.GetTestString();
+            Assert.That(inputParser.CommunityCards, Is.EqualTo(communityCardsExpectedResult));
 
+            List<string> expectedPlayerHands = new List<string>() { "JD JH", "QD QH", "8S 2H", "2S JC" };
+
+            for (int p = 0; p < inputParser.PlayerCards.Count; p++)
+            {
+                string playerResult = inputParser.PlayerCards[p];
+                Assert.That(playerResult, Is.EqualTo(expectedPlayerHands[p]));
+            }
+
+            PokerJudge pokerJudge = new PokerJudge();
+            string winner = pokerJudge.GetWinner(inputParser.CommunityCards, inputParser.PlayerCards);
+            string expectedWinner = "Player1";
+            Assert.That(winner, Is.EqualTo(expectedWinner));
+
+
+
+            //StringBuilder expectedOutput = new StringBuilder();
+
+            //expectedOutput.AppendLine("Player1");
+            //expectedOutput.AppendLine("Player2");
+
+            //new PokerJudgeMain().Run(sb.ToString(), output);
+
+            //Assert.That(output.ToString(), Is.EqualTo(expectedOutput.ToString()));
+        }
+        [Test]
+        public void run_withappendedinput_returnsplayer1()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine("5H 6H 9H 2D QC");
+            sb.AppendLine("Player1 10H KH");
+            sb.AppendLine("Player2 4C JS");
+            sb.AppendLine("Player3 4D 8D");
+            sb.AppendLine("Player4 10D 8C");
+
+            InputParser inputParser = new InputParser(sb.ToString());
+            string communityCardsExpectedResult = "5H 6H 9H 2D QC";
+            string result = inputParser.GetTestString();
+            Assert.That(inputParser.CommunityCards, Is.EqualTo(communityCardsExpectedResult));
+
+            List<string> expectedPlayerHands = new List<string>() { "10H KH", "4C JS", "4D 8D", "10D 8C" };
+
+            for (int p = 0; p < inputParser.PlayerCards.Count; p++)
+            {
+                string playerResult = inputParser.PlayerCards[p];
+                Assert.That(playerResult, Is.EqualTo(expectedPlayerHands[p]));
+            }
+
+            PokerJudge pokerJudge = new PokerJudge();
+            string winner = pokerJudge.GetWinner(inputParser.CommunityCards, inputParser.PlayerCards);
+            string expectedWinner = "Player1";
+            Assert.That(winner, Is.EqualTo(expectedWinner));
         }
     }
 }
